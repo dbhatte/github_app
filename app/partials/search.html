@@ -1,0 +1,27 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <input type="search" ng-model="searchTerm" ng-model-options="{ debounce: 500 }" placeholder="Type to start searching"/>
+    		<input type="submit" ng-click="search()" value="Search" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+
+            <span id="searching" class="text-info" ng-if="searching">Searching for {{searchTerm}}</span>
+            <span id="noRepositories" class="text-danger" ng-if="noRepositories">The user {{searchTerm}} doesn't have any repositories</span>
+            <span id="userDoesNotExist" class="text-danger" ng-if="userDoesNotExist">The user {{searchTerm}} doesn't not exist</span>
+            <span id="notResponding" class="text-danger" ng-if="notResponding">Website not responding</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+
+            <ul>
+                <li ng-repeat="repo in repositories">
+                    <a href="{{repo.html_url}}">{{repo.name}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

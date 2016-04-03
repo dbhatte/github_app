@@ -4,7 +4,12 @@
   "description": "test app for github",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "http-server -a localhost -p 8000 -c-1",
+    "test": "karma start tests/karma.conf.js",
+    "preupdate-webdriver": "npm install",
+    "update-webdriver": "webdriver-manager update",
+    "preprotractor": "npm run update-webdriver",
+    "protractor": "protractor tests/protractor.conf.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +20,22 @@
   "bugs": {
     "url": "https://github.com/dbhatte/github_app/issues"
   },
-  "homepage": "https://github.com/dbhatte/github_app#readme"
+  "homepage": "https://github.com/dbhatte/github_app#readme",
+  "devDependencies": {
+    "bower": "^1.7.7",
+    "grunt": "^0.4.5",
+    "grunt-contrib-compass": "^1.1.1",
+    "grunt-contrib-uglify": "^1.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "http-server": "^0.9.0",
+    "jasmine-core": "^2.3.4",
+    "karma": "~0.12",
+    "karma-chrome-launcher": "^0.1.12",
+    "karma-firefox-launcher": "^0.1.6",
+    "karma-jasmine": "^0.3.5",
+    "karma-junit-reporter": "^0.2.2",
+    "karma-phantomjs-launcher": "^1.0.0",
+    "phantomjs-prebuilt": "^2.1.7",
+    "protractor": "^3.2.2"
+  }
 }
