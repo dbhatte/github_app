@@ -7,16 +7,11 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-
-            <span id="searching" class="text-info" ng-if="searching">Searching for {{searchTerm}}</span>
-            <span id="noRepositories" class="text-danger" ng-if="noRepositories">The user {{searchTerm}} doesn't have any repositories</span>
-            <span id="userDoesNotExist" class="text-danger" ng-if="userDoesNotExist">The user {{searchTerm}} doesn't not exist</span>
-            <span id="notResponding" class="text-danger" ng-if="notResponding">Website not responding</span>
+            <span id="message" ng-class='{label: true, "label-info": isInfo, "label-danger": isError}'>{{messageText}}</div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
-
             <ul>
                 <li ng-repeat="repo in repositories">
                     <a href="{{repo.html_url}}">{{repo.name}}</a>

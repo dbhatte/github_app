@@ -1,5 +1,5 @@
 'use strict';
-
+require('./waitReady.js');
 /* https://github.com/angular/protractor/blob/master/docs/toc.md */
 
 describe('my app', function() {
@@ -23,6 +23,7 @@ describe('my app', function() {
       var repositoryList = element.all(by.repeater('repo in repositories'));
       var searchTerm = element(by.model('searchTerm'));
       var submitButton = element(by.buttonText('Search'));
+      var message = $("#message");
 
       var EC = protractor.ExpectedConditions;
 
@@ -34,13 +35,28 @@ describe('my app', function() {
       searchTerm.sendKeys('da');
       submitButton.click();
       expect(repositoryList.count()).toBe(0);
-      browser.wait(EC.visibilityOf($('#noRepositories')), 5000);
+
+      browser.wait(function() {
+        // Using waitReady() before getText() avoids Stale element errors
+        return message.waitReady().then(function() {
+          return message.getText().then(function(text) {
+            return text === "The user da does not have any repositories";
+          });
+        });
+      }, 5000);
 
       searchTerm.clear();
       searchTerm.sendKeys('afscx23');
       submitButton.click();
       expect(repositoryList.count()).toBe(0);
-      browser.wait(EC.visibilityOf($('#userDoesNotExist')), 5000);
+      browser.wait(function() {
+        // Using waitReady() before getText() avoids Stale element errors
+        return message.waitReady().then(function() {
+          return message.getText().then(function(text) {
+            return text === "The user afscx23 does not exist";
+          });
+        });
+      }, 5000);
 
 
     });

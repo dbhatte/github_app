@@ -4,42 +4,35 @@ controllers.controller('SearchController', ['$scope', '$timeout', 'RepoService',
 
    $scope.search = function() {
    		
-        $scope.searching = true;
-
-        $scope.noRepositories = false;
-        $scope.userDoesNotExist = false;
-        $scope.notResponding = false;
-        $scope.processed = false;
-
+        $scope.showMessage('Searching for '+$scope.searchTerm, false);
         $scope.repositories = [];
+        $scope.processed = false;
 
         $scope.repoResource = RepoService.query({'username': $scope.searchTerm} ,
             function(data) {
                 $scope.processed = true;
-                $scope.searching = false;
                 $scope.repositories = data;
                 if (data.length === 0) {
-                    $scope.noRepositories = true;
+                    $scope.showMessage('The user '+$scope.searchTerm+' does not have any repositories', true);
                 }
             }, function(e) {
-                $scope.searching = false;
-
-                if (!$scope.processed) {
-                    $scope.processed = true;
-
-                    $scope.userDoesNotExist = true;
-                }
+                $scope.showMessage('', false);
+                $scope.processed = true;
+                $scope.showMessage('The user '+$scope.searchTerm+' does not exist', true);
             });
 
         $timeout(function (){
-
             if (!$scope.processed) {
-
                 $scope.processed = true;
-                $scope.notResponding = true;
+                $scope.showMessage('Website not responding', true);
                 $scope.repoResource.$cancelRequest();
             }
-
         }, 1000);
 	}
+
+    $scope.showMessage = function(messageText, isError) {
+        $scope.messageText = messageText;
+        $scope.isError = isError;
+        $scope.isInfo = !isError;
+    };
 }]);
